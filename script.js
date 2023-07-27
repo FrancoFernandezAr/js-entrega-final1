@@ -1,18 +1,10 @@
-function tiendaState () {
-  let productos = [
-    { id: 2, nombre: "Remera Contrastes negra", categoria: "remeras", stock: 2, precio: 7200, rutaImagen: "RemeraContrastesNegra.webp" },
-    { id: 3, nombre: "Remera Contraste Blanco", categoria: "remeras", stock: 5, precio: 7200, rutaImagen: "RemeraContrastesBlanca.webp" },
-    { id: 5, nombre: "Jean Artista", categoria: "pantalones", stock: 7, precio: 18000, rutaImagen: "JeanArtista.webp" },
-    { id: 7, nombre: "Jean Womans Heart", categoria: "pantalones", stock: 4, precio: 17000, rutaImagen: "JeanWomensHeart.webp" },
-    { id: 9, nombre: "Falda Patchwork", categoria: "pantalones", stock: 1, precio: 16500, rutaImagen: "FaldaPatchwork.webp" },
-    { id: 12, nombre: "Remera Manifiesto", categoria: "remeras", stock: 3, precio: 8900, rutaImagen: "RemeraManifiesto.webp" },
-    { id: 15, nombre: "Totebag Corazon", categoria: "bolsos", stock: 8, precio: 2900, rutaImagen: "TotebagCorazon.webp" },
-    { id: 17, nombre: "Hoodie Porteño Azul", categoria: "hoodies", stock: 7, precio: 20000, rutaImagen: "HoodiePorteñoAzul.webp" },
-    { id: 19, nombre: "Hoodie Porteño Celeste", categoria: "hoodies", stock: 3, precio: 20000, rutaImagen: "HoodiePorteñoCeleste.webp" },
-  ]
+const urlLocal = './storage.json';
+fetch(urlLocal)
+.then(res => res.json())
+.then(data => renderizar(data))
 
- 
-  
+
+function tiendaState () {
   let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
   let carrito = carritoJSON ? carritoJSON : []
 
@@ -44,6 +36,13 @@ function finalizarCompra(carrito) {
   localStorage.removeItem("carrito")
   carrito = []
   renderizarCarrito([])
+  Swal.fire({
+    title: 'Compra finalizada!',
+    text: 'Gracias por elegirnos!',
+    icon: 'success',
+    showConfirmButton: false,
+    timer: 3000
+  })
 }
   
 
@@ -85,6 +84,15 @@ function agregarAlCarrito(arrayDeElementos, id, carrito) {
   }
   localStorage.setItem("carrito", JSON.stringify(carrito))
   renderizarCarrito(carrito)
+  Toastify({
+
+    text: "Producto agregado correctamente",
+    style: {
+      background: "black"
+    },
+    duration: 3000
+    
+    }).showToast();
 }
 
 function renderizarCarrito(carritoJSON) {
@@ -119,6 +127,7 @@ function mostrarOcultar() {
   padreContenedor.classList.toggle("oculto")
   carrito.classList.toggle("oculto")
 }
+
 
 
  
